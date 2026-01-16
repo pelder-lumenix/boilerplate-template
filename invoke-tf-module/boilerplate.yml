@@ -21,8 +21,8 @@ variables:
     description: Default values for listed fields, if not specified
     type: map
     default: {}
-  - name: Overrides
-    description: Map of field module input override expressions
+  - name: HardCode
+    description: Map of field module inputs to hard code to provided expressions
     type: map
     defaults: {}
   - name: HowToUpdate

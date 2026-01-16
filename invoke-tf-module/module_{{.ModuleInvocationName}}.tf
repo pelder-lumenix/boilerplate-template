@@ -32,9 +32,9 @@ module "{{ .ModuleInvocationName }}" {
         {{- end }}
       {{- end }}
       # Type: {{ .Type }}
-      {{- if index $.Overrides .Name }}
+      {{- if index $.HardCode .Name }}
         # Overridden value
-        {{ .Name }} = {{ index $.Overrides .Name }}
+        {{ .Name }} = {{ index $.HardCode .Name }}
       {{- else if index $.Defaults .Name }}
         # Default value provided for normally required input
         {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ index $.Defaults .Name }})
@@ -45,8 +45,9 @@ module "{{ .ModuleInvocationName }}" {
   {{- end }}
 
   # --------------------------------------------------------------------------------------------------------------------
-  # Optional input variables
-  # Uncomment the ones you wish to set
+  # Optional inputs
+  # Accept user from var.{{ $.ModuleInputVar }}, or provide a default
+  # Hard coded values are annoted
   # --------------------------------------------------------------------------------------------------------------------
   {{- range $v := .optionalVariables }}
     {{- if and (not (index $IgnoreMap .Name)) (not (index $AlreadyProcessedNames .Name)) }}
@@ -60,9 +61,9 @@ module "{{ .ModuleInvocationName }}" {
         {{- end }}
       {{- end }}
       # Type: {{ .Type }}
-      {{- if index $.Overrides .Name }}
-        # Overridden value
-        {{ .Name }} = {{ index $.Overrides .Name }}
+      {{- if index $.HardCode .Name }}
+        # Hard coded value
+        {{ .Name }} = {{ index $.HardCode .Name }}
       {{- else if index $.Defaults .Name }}
         # Non-standard default value
         {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ index $.Defaults .Name }})
