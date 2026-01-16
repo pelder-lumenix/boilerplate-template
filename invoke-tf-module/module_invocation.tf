@@ -66,5 +66,4 @@ output "{{ .OutputName }}_sensitive" {
       if contains([{{ range .SensitiveOutputs }} "{{ . }}", {{ end }}], k)
   }
 }
-
 {{ end }}
