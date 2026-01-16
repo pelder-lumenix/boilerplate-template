@@ -1,3 +1,5 @@
+{{printf "Input %#v" .}}
+
 module "{{ .ModuleInvocationName }}" {
   source  = "{{ .sourceUrl }}"
 
@@ -5,6 +7,7 @@ module "{{ .ModuleInvocationName }}" {
   # Required input variables
   # --------------------------------------------------------------------------------------------------------------------
   {{ range .requiredVariables }}
+  # {{printf "var %#v" .}}
   {{- if eq 1 (regexSplit "\n" .Description -1 | len ) }}
   # Description: {{ .Description }}
   {{- else }}
@@ -14,7 +17,7 @@ module "{{ .ModuleInvocationName }}" {
     {{- end }}
   {{- end }}
   # Type: {{ .Type }}
-  {{ .Name }} = var.{{ .ModuleInputVar }}.{{ .Name }}
+  {{ .Name }} = var.{{ $.ModuleInputVar }}.{{ .Name }}
   {{ end }}
 
   # --------------------------------------------------------------------------------------------------------------------
@@ -31,6 +34,6 @@ module "{{ .ModuleInvocationName }}" {
     {{- end }}
   {{- end }}
   # Type: {{ .Type }}
-  {{ .Name }} = try(var.{{ .ModuleInputVar }}.{{ .Name }}, {{ .DefaultValue }})
+  {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ .DefaultValue }})
   {{ end }}
 }
