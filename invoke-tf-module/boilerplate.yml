@@ -17,4 +17,7 @@ variables:
     description: List of variables to ignore (typically from examples)
     type: list
     default: []
-  
+  - name: Defaults
+    description: Default values for listed fields, if not specified
+    type: map
+    default: {}

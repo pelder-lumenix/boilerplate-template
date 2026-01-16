@@ -43,7 +43,7 @@ module "{{ .ModuleInvocationName }}" {
     {{- end }}
   {{- end }}
   # Type: {{ .Type }}
-  {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ .DefaultValue }})
+  {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ .DefaultValue }})
   {{- end }}
   {{ end }}
 }
@@ -59,8 +59,10 @@ output "{{ .OutputName }}" {
 }
 
 {{- if .SensitiveOutputs }}
+
 output "{{ .OutputName }}_sensitive" {
   description = "Outputs of from the {{ .ModuleInvocationName }} module"
+  sensitive   = true
   value       = {
     for k, v in module.{{ .ModuleInvocationName }}:
       k => v
