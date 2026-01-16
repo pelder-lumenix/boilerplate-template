@@ -51,7 +51,7 @@ module "{{ .ModuleInvocationName }}" {
     {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ index $.Defaults .Name }})
   {{- else}}
     {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ .DefaultValue }})
-  {{-end}}
+  {{- end}}
   {{- end }}
   {{ end }}
 }
