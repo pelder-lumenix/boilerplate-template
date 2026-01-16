@@ -32,7 +32,7 @@ module "{{ .ModuleInvocationName }}" {
   # Uncomment the ones you wish to set
   # --------------------------------------------------------------------------------------------------------------------
   {{ range $v := .optionalVariables }}
-  {{- if not $index IgnoreMap . }}
+  {{- if not index $IgnoreMap . }}
   {{- if eq 1 (regexSplit "\n" .Description -1 | len ) }}
   # Description: {{ .Description }}
   {{- else }}
