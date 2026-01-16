@@ -12,23 +12,27 @@ module "{{ .ModuleInvocationName }}" {
   # Required input variables
   # --------------------------------------------------------------------------------------------------------------------
   {{ range .requiredVariables }}
-  {{- if and (not (index $IgnoreMap .Name)) (not (index $AlreadyProcessedNames .Name)) }}
-  {{- $AlreadyProcessedNames = merge $IgnoreMap (dict .Name true) }}
-  {{- if eq 1 (regexSplit "\n" .Description -1 | len ) }}
-  # Description: {{ .Description }}
-  {{- else }}
-  # Description:
-    {{- range $line := regexSplit "\n" .Description -1 }}
-    # {{ $line | indent 2 }}
+    {{- if and (not (index $IgnoreMap .Name)) (not (index $AlreadyProcessedNames .Name)) }}
+      {{- $AlreadyProcessedNames = merge $IgnoreMap (dict .Name true) }}
+      {{- if eq 1 (regexSplit "\n" .Description -1 | len ) }}
+        # Description: {{ .Description }}
+      {{- else }}
+        # Description:
+        {{- range $line := regexSplit "\n" .Description -1 }}
+          # {{ $line | indent 2 }}
+        {{- end }}
+      {{- end }}
+      # Type: {{ .Type }}
+      {{- if index $.Overrides .Name }}
+        # Overridden value
+        {{ .Name }} = {{ index $.Overrides .Name }}
+      {{- else if index $.Defaults .Name }}
+        # Default value provided for normally required input
+        {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ index $.Defaults .Name }})
+      {{- else}}
+        {{ .Name }} = var.{{ $.ModuleInputVar }}.{{ .Name }}
+      {{- end}}
     {{- end }}
-  {{- end }}
-  # Type: {{ .Type }}
-  {{- if index $.Defaults .Name }}
-    {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ index $.Defaults .Name }})
-  {{- else}}
-    {{ .Name }} = var.{{ $.ModuleInputVar }}.{{ .Name }}
-  {{- end}}
-  {{- end }}
   {{ end }}
 
   # --------------------------------------------------------------------------------------------------------------------
@@ -36,23 +40,27 @@ module "{{ .ModuleInvocationName }}" {
   # Uncomment the ones you wish to set
   # --------------------------------------------------------------------------------------------------------------------
   {{ range $v := .optionalVariables }}
-  {{- if and (not (index $IgnoreMap .Name)) (not (index $AlreadyProcessedNames .Name)) }}
-  {{- $AlreadyProcessedNames = merge $IgnoreMap (dict .Name true) }}
-  {{- if eq 1 (regexSplit "\n" .Description -1 | len ) }}
-  # Description: {{ .Description }}
-  {{- else }}
-  # Description:
-    {{- range $line := regexSplit "\n" .Description -1 }}
-    # {{ $line | indent 2 }}
+    {{- if and (not (index $IgnoreMap .Name)) (not (index $AlreadyProcessedNames .Name)) }}
+      {{- $AlreadyProcessedNames = merge $IgnoreMap (dict .Name true) }}
+      {{- if eq 1 (regexSplit "\n" .Description -1 | len ) }}
+        # Description: {{ .Description }}
+      {{- else }}
+        # Description:
+          {{- range $line := regexSplit "\n" .Description -1 }}
+          # {{ $line | indent 2 }}
+          {{- end }}
+      {{- end }}
+      # Type: {{ .Type }}
+      {{- if index $.Overrides .Name }}
+        # Overridden value
+        {{ .Name }} = {{ index $.Overrides .Name }}
+      {{- else if index $.Defaults .Name }}
+        # Non-standard default value
+        {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ index $.Defaults .Name }})
+      {{- else}}
+        {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ .DefaultValue }})
+      {{- end}}
     {{- end }}
-  {{- end }}
-  # Type: {{ .Type }}
-  {{- if index $.Defaults .Name }}
-    {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ index $.Defaults .Name }})
-  {{- else}}
-    {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ .DefaultValue }})
-  {{- end}}
-  {{- end }}
   {{ end }}
 }
 {{- if .OutputName}}

@@ -21,3 +21,7 @@ variables:
     description: Default values for listed fields, if not specified
     type: map
     default: {}
+  - name: Overrides
+    description: Map of field module input override expressions
+    type: map
+    defaults: {}
