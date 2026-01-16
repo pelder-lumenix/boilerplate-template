@@ -72,27 +72,3 @@ module "{{ .ModuleInvocationName }}" {
     {{- end }}
   {{- end }}
 }
-{{- if .OutputName}}
-
-output "{{ .OutputName }}" {
-  description = "Outputs of from the {{ .ModuleInvocationName }} module"
-  value       = {
-    for k, v in module.{{ .ModuleInvocationName }}:
-      k => v
-      if !contains([{{ range .SensitiveOutputs }} "{{ . }}", {{ end }}], k)
-  }
-}
-
-{{- if .SensitiveOutputs }}
-
-output "{{ .OutputName }}_sensitive" {
-  description = "Outputs of from the {{ .ModuleInvocationName }} module"
-  sensitive   = true
-  value       = {
-    for k, v in module.{{ .ModuleInvocationName }}:
-      k => v
-      if contains([{{ range .SensitiveOutputs }} "{{ . }}", {{ end }}], k)
-  }
-}
-{{ end }}
-{{ end }}
