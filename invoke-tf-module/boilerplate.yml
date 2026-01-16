@@ -5,3 +5,15 @@ variables:
   - name: ModuleInvocationName
     description: The name of the module invocation
     type: string
+  - name: OutputName
+    description: The name of the output variable to contain module outputs
+    type: string
+    default: ""
+  - name: SensitiveOutputs
+    description: List the module outputs which are sensitive module outputs
+    type: list
+    default: []
+  - name: IgnoredVariables
+    description: List of variables to ignore (typically from examples)
+    default: []
+  
