@@ -49,7 +49,7 @@ module "{{ .ModuleInvocationName }}" {
 
 {{- if not .OutputName}}
 output "{{ .OutputName }}" {
-  description = "Outputs of from the {{ . ModuleInvocationName }} module"
+  description = "Outputs of from the {{ .ModuleInvocationName }} module"
   value       = {
     for k, v in module.{{ .ModuleInvocationName }}:
       k => v
@@ -59,7 +59,7 @@ output "{{ .OutputName }}" {
 
 {{- if .SensitiveOutputs }}
 output "{{ .OutputName }}_sensitive" {
-  description = "Outputs of from the {{ . ModuleInvocationName }} module"
+  description = "Outputs of from the {{ .ModuleInvocationName }} module"
   value       = {
     for k, v in module.{{ .ModuleInvocationName }}:
       k => v
