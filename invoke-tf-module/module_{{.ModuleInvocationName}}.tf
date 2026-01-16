@@ -27,8 +27,7 @@ module "{{ .ModuleInvocationName }}" {
     {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ index $.Defaults .Name }})
   {{- else}}
     {{ .Name }} = var.{{ $.ModuleInputVar }}.{{ .Name }}
-  {{-end}}
-  {{ .Name }} = var.{{ $.ModuleInputVar }}.{{ .Name }}
+  {{- end}}
   {{- end }}
   {{ end }}
 
