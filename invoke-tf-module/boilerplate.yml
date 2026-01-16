@@ -25,3 +25,10 @@ variables:
     description: Map of field module input override expressions
     type: map
     defaults: {}
+hooks:
+  after:
+    - command: terraform
+      args:
+        - "fmt"
+        - "module_{{ .ModuleInvocationName }}.tf"
+      dir: "{{ outputFolder }}"

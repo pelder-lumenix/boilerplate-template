@@ -46,9 +46,9 @@ module "{{ .ModuleInvocationName }}" {
         # Description: {{ .Description }}
       {{- else }}
         # Description:
-          {{- range $line := regexSplit "\n" .Description -1 }}
+        {{- range $line := regexSplit "\n" .Description -1 }}
           # {{ $line | indent 2 }}
-          {{- end }}
+        {{- end }}
       {{- end }}
       # Type: {{ .Type }}
       {{- if index $.Overrides .Name }}
