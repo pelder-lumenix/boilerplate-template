@@ -23,8 +23,8 @@ module "{{ .ModuleInvocationName }}" {
     {{- end }}
   {{- end }}
   # Type: {{ .Type }}
-  {{- if index $Defaults .Name }}
-    {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ index $Defaults .Name }})
+  {{- if index $.Defaults .Name }}
+    {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ index $.Defaults .Name }})
   {{- else}}
     {{ .Name }} = var.{{ $.ModuleInputVar }}.{{ .Name }}
   {{-end}}
@@ -48,8 +48,8 @@ module "{{ .ModuleInvocationName }}" {
     {{- end }}
   {{- end }}
   # Type: {{ .Type }}
-  {{- if index $Defaults .Name }}
-    {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ index $Defaults .Name }})
+  {{- if index $.Defaults .Name }}
+    {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ index $.Defaults .Name }})
   {{- else}}
     {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ .DefaultValue }})
   {{-end}}
