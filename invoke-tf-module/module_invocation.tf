@@ -12,19 +12,18 @@ module "{{ .ModuleInvocationName }}" {
   # --------------------------------------------------------------------------------------------------------------------
   # Required input variables
   # --------------------------------------------------------------------------------------------------------------------
-  {{ range .requiredVariables }}
-  {{- if not $IgnoreMap. }}
-  # {{printf "var %#v" .}}
-  {{- if eq 1 (regexSplit "\n" .Description -1 | len ) }}
-  # Description: {{ .Description }}
+  {{ range $v := .requiredVariables }}
+  {{- if not $IgnoreMap.$v }}
+  {{- if eq 1 (regexSplit "\n" $v.Description -1 | len ) }}
+  # Description: {{ $v.Description }}
   {{- else }}
   # Description:
-    {{- range $line := regexSplit "\n" .Description -1 }}
+    {{- range $line := regexSplit "\n" $v.Description -1 }}
     # {{ $line | indent 2 }}
     {{- end }}
   {{- end }}
-  # Type: {{ .Type }}
-  {{ .Name }} = var.{{ $.ModuleInputVar }}.{{ .Name }}
+  # Type: {{ $v.Type }}
+  {{ $v.Name }} = var.{{ $.ModuleInputVar }}.{{ $v.Name }}
   {{- end }}
   {{ end }}
 
@@ -32,18 +31,18 @@ module "{{ .ModuleInvocationName }}" {
   # Optional input variables
   # Uncomment the ones you wish to set
   # --------------------------------------------------------------------------------------------------------------------
-  {{ range .optionalVariables }}
-  {{- if not $IgnoreMap. }}
-  {{- if eq 1 (regexSplit "\n" .Description -1 | len ) }}
+  {{ range $v := .optionalVariables }}
+  {{- if not $IgnoreMap.$v }}
+  {{- if eq 1 (regexSplit "\n" $v.Description -1 | len ) }}
   # Description: {{ .Description }}
   {{- else }}
   # Description:
-    {{- range $line := regexSplit "\n" .Description -1 }}
+    {{- range $line := regexSplit "\n" $v.Description -1 }}
     # {{ $line | indent 2 }}
     {{- end }}
   {{- end }}
-  # Type: {{ .Type }}
-  {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ .DefaultValue }})
+  # Type: {{ $v.Type }}
+  {{ $v.Name }} = try(var.{{ $.ModuleInputVar }}.{{ $v.Name }}, {{ $v.DefaultValue }})
   {{- end }}
   {{ end }}
 }
