@@ -1,0 +1,7 @@
+variables:
+  - name: ModuleInputVar
+    description: The name of the input variable containing module arguments
+    type: string
+  - name: ModuleInvocationName
+    description: The name of the module invocation
+    type: string
