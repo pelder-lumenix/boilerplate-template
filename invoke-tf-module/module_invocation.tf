@@ -12,18 +12,18 @@ module "{{ .ModuleInvocationName }}" {
   # --------------------------------------------------------------------------------------------------------------------
   # Required input variables
   # --------------------------------------------------------------------------------------------------------------------
-  {{ range $v := .requiredVariables }}
-  {{- if not $IgnoreMap.$v }}
-  {{- if eq 1 (regexSplit "\n" $v.Description -1 | len ) }}
-  # Description: {{ $v.Description }}
+  {{ range .requiredVariables }}
+  {{- if not index $IgnoreMap . }}
+  {{- if eq 1 (regexSplit "\n" .Description -1 | len ) }}
+  # Description: {{ .Description }}
   {{- else }}
   # Description:
-    {{- range $line := regexSplit "\n" $v.Description -1 }}
+    {{- range $line := regexSplit "\n" .Description -1 }}
     # {{ $line | indent 2 }}
     {{- end }}
   {{- end }}
-  # Type: {{ $v.Type }}
-  {{ $v.Name }} = var.{{ $.ModuleInputVar }}.{{ $v.Name }}
+  # Type: {{ .Type }}
+  {{ .Name }} = var.{{ $.ModuleInputVar }}.{{ .Name }}
   {{- end }}
   {{ end }}
 
@@ -32,17 +32,17 @@ module "{{ .ModuleInvocationName }}" {
   # Uncomment the ones you wish to set
   # --------------------------------------------------------------------------------------------------------------------
   {{ range $v := .optionalVariables }}
-  {{- if not $IgnoreMap.$v }}
-  {{- if eq 1 (regexSplit "\n" $v.Description -1 | len ) }}
+  {{- if not $index IgnoreMap . }}
+  {{- if eq 1 (regexSplit "\n" .Description -1 | len ) }}
   # Description: {{ .Description }}
   {{- else }}
   # Description:
-    {{- range $line := regexSplit "\n" $v.Description -1 }}
+    {{- range $line := regexSplit "\n" .Description -1 }}
     # {{ $line | indent 2 }}
     {{- end }}
   {{- end }}
-  # Type: {{ $v.Type }}
-  {{ $v.Name }} = try(var.{{ $.ModuleInputVar }}.{{ $v.Name }}, {{ $v.DefaultValue }})
+  # Type: {{ .Type }}
+  {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ .DefaultValue }})
   {{- end }}
   {{ end }}
 }
