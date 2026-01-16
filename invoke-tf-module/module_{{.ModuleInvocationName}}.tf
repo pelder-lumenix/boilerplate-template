@@ -40,7 +40,7 @@ module "{{ .ModuleInvocationName }}" {
         {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ index $.Defaults .Name }})
       {{- else}}
         {{ .Name }} = var.{{ $.ModuleInputVar }}.{{ .Name }}
-      {{- end}}
+      {{ end}}
     {{- end }}
   {{- end }}
 
@@ -69,7 +69,7 @@ module "{{ .ModuleInvocationName }}" {
         {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ index $.Defaults .Name }})
       {{- else}}
         {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ .DefaultValue }})
-      {{- end}}
+      {{ end}}
     {{- end }}
   {{- end }}
 }
