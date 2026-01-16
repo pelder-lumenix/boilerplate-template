@@ -15,5 +15,6 @@ variables:
     default: []
   - name: IgnoredVariables
     description: List of variables to ignore (typically from examples)
+    type: list
     default: []
   
