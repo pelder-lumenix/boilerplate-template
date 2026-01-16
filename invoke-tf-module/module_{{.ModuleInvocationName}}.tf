@@ -70,7 +70,7 @@ output "{{ .OutputName }}" {
   value       = {
     for k, v in module.{{ .ModuleInvocationName }}:
       k => v
-      if not contains([{{ range .SensitiveOutputs }} "{{ . }}", {{ end }}], k)
+      if !contains([{{ range .SensitiveOutputs }} "{{ . }}", {{ end }}], k)
   }
 }
 
