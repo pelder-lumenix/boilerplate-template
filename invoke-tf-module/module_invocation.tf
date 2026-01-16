@@ -14,7 +14,7 @@ module "{{ .ModuleInvocationName }}" {
     {{- end }}
   {{- end }}
   # Type: {{ .Type }}
-  {{ .Name }} = {{ .ModuleInputVar }}.{{ .Name }}
+  {{ .Name }} = var.{{ .ModuleInputVar }}.{{ .Name }}
   {{ end }}
 
   # --------------------------------------------------------------------------------------------------------------------
@@ -31,6 +31,6 @@ module "{{ .ModuleInvocationName }}" {
     {{- end }}
   {{- end }}
   # Type: {{ .Type }}
-  {{ .Name }} = try({{ .ModuleInputVar }}.{{ .Name }}, {{ .DefaultValue }})
+  {{ .Name }} = try(var.{{ .ModuleInputVar }}.{{ .Name }}, {{ .DefaultValue }})
   {{ end }}
 }
