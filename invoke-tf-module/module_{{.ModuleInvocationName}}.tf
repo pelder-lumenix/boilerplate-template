@@ -23,6 +23,11 @@ module "{{ .ModuleInvocationName }}" {
     {{- end }}
   {{- end }}
   # Type: {{ .Type }}
+  {{- if index $Defaults .Name }}
+    {{ .Name }} = try(var.{{ $.ModuleInputVar }}.{{ .Name }}, {{ index $Defaults .Name }})
+  {{- else}}
+    {{ .Name }} = var.{{ $.ModuleInputVar }}.{{ .Name }}
+  {{-end}}
   {{ .Name }} = var.{{ $.ModuleInputVar }}.{{ .Name }}
   {{- end }}
   {{ end }}
@@ -43,7 +48,11 @@ module "{{ .ModuleInvocationName }}" {
     {{- end }}
   {{- end }}
   # Type: {{ .Type }}
-  {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ .DefaultValue }})
+  {{- if index $Defaults .Name }}
+    {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ index $Defaults .Name }})
+  {{- else}}
+    {{ .Name }} = lookup(var.{{ $.ModuleInputVar }}, "{{ .Name }}", {{ .DefaultValue }})
+  {{-end}}
   {{- end }}
   {{ end }}
 }
