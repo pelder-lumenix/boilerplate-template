@@ -17,7 +17,7 @@
 {{- if .OutputName}}
 
 output "{{ .OutputName }}" {
-  description = "Outputs of from the {{ .ModuleInvocationName }} module"
+  description = "Non-senstive outputs from module {{ .ModuleInvocationName }}"
   value       = {
     for k, v in module.{{ .ModuleInvocationName }}:
       k => v
@@ -28,7 +28,7 @@ output "{{ .OutputName }}" {
 {{- if .SensitiveOutputs }}
 
 output "{{ .OutputName }}_sensitive" {
-  description = "Outputs of from the {{ .ModuleInvocationName }} module"
+  description = "Sensitive outputs from module {{ .ModuleInvocationName }}"
   sensitive   = true
   value       = {
     for k, v in module.{{ .ModuleInvocationName }}:
